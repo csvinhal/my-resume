@@ -11,9 +11,12 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { actions } from '../../../reducers/auth';
 
 const styles = theme => ({
-    main: {
+    content: {
         width: 'auto',
         display: 'block', // Fix IE 11 issue.
         marginLeft: theme.spacing.unit * 3,
@@ -52,14 +55,26 @@ const styles = theme => ({
 
 class SignIn extends Component {
 
-    onNavigationSignUpHandler = () => {
+    navigationSignUpHandler = () => {
         this.props.history.push('/signup');
+    }
+
+    inputChangedHandler = event => {
+        const { value, name } = event.target;
+        this.setState({
+            [name]: value,
+        });
+    }
+
+    submitHandler = event => {
+        event.preventDefault();
+        this.props.login(this.state.email, this.state.password);
     }
 
     render() {
         const { classes } = this.props;
         return (
-            <main className={classes.main}>
+            <main className={classes.content}>
                 <Paper className={classes.paper}>
                     <Avatar className={classes.avatar}>
                         <LockOutlinedIcon />
@@ -67,7 +82,7 @@ class SignIn extends Component {
                     <Typography component="h1" variant="h5">
                         Sign in
                     </Typography>
-                    <form className={classes.form}>
+                    <form className={classes.form} onSubmit={this.submitHandler}>
                         <FormControl margin="normal" required fullWidth>
                             <InputLabel htmlFor="email">Email Address</InputLabel>
                             <Input id="email" name="email" autoComplete="email" autoFocus />
@@ -91,7 +106,7 @@ class SignIn extends Component {
                         </Button>
                     </form>
                     <span className={classes.account}>New here?
-                            <Button className={classes.link} size="small" onClick={this.onNavigationSignUpHandler}>Create an account</Button>
+                            <Button className={classes.link} size="small" onClick={this.navigationSignUpHandler}>Create an account</Button>
                     </span>
                 </Paper>
             </main>
@@ -103,4 +118,8 @@ SignIn.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(SignIn);
+const mapDispatchToProps = (dispatch) => ({
+    ...bindActionCreators(actions, dispatch)
+});
+
+export default connect(null, mapDispatchToProps)(withStyles(styles)(SignIn));

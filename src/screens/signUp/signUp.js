@@ -60,7 +60,6 @@ const styles = theme => ({
 });
 
 class SignUp extends Component {
-
   constructor(props) {
     super(props);
 

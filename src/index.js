@@ -13,7 +13,7 @@ import authReducer from './reducers/auth';
 import watchAuth from './sagas';
 import * as serviceWorker from './serviceWorker';
 
-// eslint-disable-next-line no-undef, no-underscore-dangle
+// eslint-disable-next-line no-underscore-dangle
 const composeEnhancers = process.env.NODE_ENV === 'development' ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ : null || compose;
 
 const rootReducer = combineReducers({

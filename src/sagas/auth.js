@@ -1,6 +1,9 @@
 import { call, put } from 'redux-saga/effects';
 import { actions } from '../reducers/auth';
-import { register, login } from '../shared/auth';
+import {
+  isValidToken, login, register, removeStorageData,
+} from '../shared/auth';
+import moment from 'moment';
 
 export function* signup(action) {
   try {
@@ -18,5 +21,24 @@ export function* signin(action) {
   } catch (err) {
     yield put(actions.signInFailed(err.response.data.error));
   }
+}
 
+export function* checkAuthTokenValidate(action) {
+  const isValid = yield call(isValidToken, action.expirationDate);
+  if (!isValid) {
+    yield call(removeStorageData);
+    yield put(actions.signout());
+  }
+}
+
+export function* checkLocalStorageTokenValidate() {
+  const token = yield localStorage.getItem('token');
+  if (!token) {
+    yield call(removeStorageData);
+    yield put(actions.signout());
+  } else {
+    const userId = yield localStorage.getItem('userId');
+    const expirationDate = yield moment(new Date(localStorage.getItem('expirationDate')));
+    yield put(actions.signInSuccess(token, userId, expirationDate));
+  }
 }

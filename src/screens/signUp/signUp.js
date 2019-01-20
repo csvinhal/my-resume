@@ -98,21 +98,21 @@ class SignUp extends Component {
 
   render() {
     const {
-      classes, isLoading, error, hasError, shouldRedirect,
+      classes, isLoading, error, hasError, isAthenticated,
     } = this.props;
 
     return (
       <div>
-        {shouldRedirect && <Redirect to="/resumes" />}
-        {!shouldRedirect && isLoading && <LoadingState />}
-        {!shouldRedirect && !isLoading && error && (
+        {isAthenticated && <Redirect to="/resumes" />}
+        {!isAthenticated && isLoading && <LoadingState />}
+        {!isAthenticated && !isLoading && error && (
           <AlertContent
             onClose={this.closeAlertHandler}
             open={hasError}
             variant="error"
             message={error.message}
           />)}
-        {!shouldRedirect && !isLoading && (
+        {!isAthenticated && !isLoading && (
           <main className={classes.content}>
             <Paper className={classes.paper}>
               <Avatar className={classes.avatar}>
@@ -162,7 +162,7 @@ SignUp.propTypes = {
   closeAlert: PropTypes.func.isRequired,
   error: PropTypes.instanceOf(Object),
   isLoading: PropTypes.bool.isRequired,
-  shouldRedirect: PropTypes.bool.isRequired,
+  isAthenticated: PropTypes.bool.isRequired,
   hasError: PropTypes.bool.isRequired,
 };
 
@@ -174,7 +174,7 @@ const mapStateToProps = state => ({
   isLoading: state.auth.isLoading,
   error: state.auth.error,
   hasError: !!state.auth.error,
-  shouldRedirect: state.auth.shouldRedirect,
+  isAthenticated: !!state.auth.token,
 });
 
 const mapDispatchToProps = dispatch => ({

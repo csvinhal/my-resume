@@ -98,7 +98,7 @@ class SignIn extends Component {
     } = this.props;
     return (
       <div>
-        {isAthenticated && <Redirect to="/" />}
+        {isAthenticated && <Redirect to="/resumes" />}
         {!isAthenticated && isLoading && <LoadingState />}
         {!isAthenticated && !isLoading && error && (
           <AlertContent

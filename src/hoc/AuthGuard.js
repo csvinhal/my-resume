@@ -16,7 +16,12 @@ export default function (WrappedComponent) {
 
     checkAndRedirect() {
       const {
-        isAuthenticated, history, expirationDate, checkAuthTokenValidate, checkLocalStorageTokenValidate, shouldRedirect,
+        isAuthenticated,
+        history,
+        expirationDate,
+        checkAuthTokenValidate,
+        checkLocalStorageTokenValidate,
+        shouldRedirect,
       } = this.props;
 
       if (isAuthenticated) {

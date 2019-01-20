@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Layout from '../../../hoc/Layout';
 
-class MyResume extends Component {
+class Resumes extends Component {
   constructor(props) {
     super(props);
     this.state = {};
@@ -18,4 +18,4 @@ class MyResume extends Component {
   }
 }
 
-export default MyResume;
+export default Resumes;

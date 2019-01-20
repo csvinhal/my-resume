@@ -4,23 +4,19 @@ import React from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import './App.css';
 import authGuard from './hoc/AuthGuard';
-import MyResume from './screens/signIn/myResume/myResume';
+import Resumes from './screens/signIn/resumes/resumes';
 import SignIn from './screens/signIn/signIn';
 import SignUp from './screens/signUp/signUp';
 
-class App extends React.Component {
-  render() {
-    return (
-      <CssBaseline>
-        <Switch>
-          <Route path="/signin" component={SignIn} />
-          <Route path="/signup" component={SignUp} />
-          <Route path="/" exact component={authGuard(MyResume)} />
-          <Redirect to="/signin" />
-        </Switch>
-      </CssBaseline>
-    );
-  }
-}
+const App = () => (
+  <CssBaseline>
+    <Switch>
+      <Route path="/signin" component={SignIn} />
+      <Route path="/signup" component={SignUp} />
+      <Route path="/resumes" exact component={authGuard(Resumes)} />
+      <Redirect to="/resumes" />
+    </Switch>
+  </CssBaseline>
+);
 
 export default App;

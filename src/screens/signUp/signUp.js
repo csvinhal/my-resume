@@ -103,7 +103,7 @@ class SignUp extends Component {
 
     return (
       <div>
-        {shouldRedirect && <Redirect to="/" />}
+        {shouldRedirect && <Redirect to="/resumes" />}
         {!shouldRedirect && isLoading && <LoadingState />}
         {!shouldRedirect && !isLoading && error && (
           <AlertContent

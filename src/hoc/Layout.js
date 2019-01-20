@@ -1,17 +1,21 @@
 import AppBar from '@material-ui/core/AppBar';
 import IconButton from '@material-ui/core/IconButton';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
 import { withStyles } from '@material-ui/core/styles';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import MenuIcon from '@material-ui/icons/Menu';
+import AccountCircle from '@material-ui/icons/AccountCircle';
 import PropTypes from 'prop-types';
 import React from 'react';
-import MenuItem from '@material-ui/core/MenuItem';
-import Menu from '@material-ui/core/Menu';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { bindActionCreators } from 'redux';
+import { actions } from '../reducers/auth';
 
 const styles = theme => ({
   root: {
-    width: '100%',
+    flexGrow: 1,
   },
   grow: {
     flexGrow: 1,
@@ -20,27 +24,12 @@ const styles = theme => ({
     marginLeft: -12,
     marginRight: 20,
   },
-  title: {
-    display: 'none',
-    [theme.breakpoints.up('sm')]: {
-      display: 'block',
-    },
-  },
-  inputInput: {
-    paddingTop: theme.spacing.unit,
-    paddingRight: theme.spacing.unit,
-    paddingBottom: theme.spacing.unit,
-    paddingLeft: theme.spacing.unit * 10,
-    transition: theme.transitions.create('width'),
-    width: '100%',
-    [theme.breakpoints.up('md')]: {
-      width: 200,
-    },
-  },
-  sectionDesktop: {
-    display: 'none',
-    [theme.breakpoints.up('md')]: {
-      display: 'flex',
+  link: {
+    color: 'inherit',
+    margin: theme.spacing.unit,
+    textDecoration: 'none',
+    '&:hover': {
+      textDecoration: 'underline',
     },
   },
 });
@@ -51,52 +40,75 @@ class Layout extends React.Component {
     this.state = {
       anchorEl: null,
     };
+
+    this.handleMenu = this.handleMenu.bind(this);
+    this.handleClose = this.handleClose.bind(this);
+    this.handleSignout = this.handleSignout.bind(this);
   }
 
-  handleProfileMenuOpen(event) {
+  handleMenu(event) {
     this.setState({ anchorEl: event.currentTarget });
   }
 
-  handleMenuClose() {
+  handleClose() {
     this.setState({ anchorEl: null });
-    this.handleMobileMenuClose();
+  }
+
+  handleSignout() {
+    const { signout } = this.props;
+
+    signout();
   }
 
   render() {
     const { classes, children } = this.props;
     const { anchorEl } = this.state;
-    const isMenuOpen = Boolean(anchorEl);
-
-    const renderMenu = (
-      <Menu
-        anchorEl={anchorEl}
-        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-        transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-        open={isMenuOpen}
-        onClose={this.handleMenuClose}
-      >
-        <MenuItem onClick={this.handleMenuClose}>Profile</MenuItem>
-        <MenuItem onClick={this.handleMenuClose}>My account</MenuItem>
-      </Menu>
-    );
+    const open = Boolean(anchorEl);
 
     return (
       <div>
         <div className={classes.root}>
           <AppBar position="static">
             <Toolbar>
-              <IconButton className={classes.menuButton} color="inherit" aria-label="Open drawer">
-                <MenuIcon />
-              </IconButton>
-              <Typography className={classes.title} variant="h6" color="inherit" noWrap>
-                Material-UI
+              <Typography variant="h6" color="inherit" className={classes.grow}>
+                <Link to="/resumes" className={classes.link}>
+                  My Resumes
+              </Link>
               </Typography>
-              <div className={classes.grow} />
-              {renderMenu}
+
+              <div>
+                <IconButton
+                  aria-owns={open ? 'menu-appbar' : undefined}
+                  aria-haspopup="true"
+                  onClick={this.handleMenu}
+                  color="inherit"
+                >
+                  <AccountCircle />
+                </IconButton>
+                <Menu
+                  id="menu-appbar"
+                  anchorEl={anchorEl}
+                  anchorOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                  }}
+                  transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                  }}
+                  open={open}
+                  onClose={this.handleClose}
+                >
+                  <MenuItem onClick={this.handleClose}>Profile</MenuItem>
+                  <MenuItem onClick={this.handleSignout}>Signout</MenuItem>
+                </Menu>
+              </div>
             </Toolbar>
           </AppBar>
         </div>
-        <main>{children}</main>
+        <div>
+          {children}
+        </div>
       </div>
     );
   }
@@ -105,6 +117,11 @@ class Layout extends React.Component {
 Layout.propTypes = {
   classes: PropTypes.instanceOf(Object).isRequired,
   children: PropTypes.instanceOf(Object).isRequired,
+  signout: PropTypes.func.isRequired,
 };
 
-export default withStyles(styles)(Layout);
+const mapDispatchToProps = dispatch => ({
+  ...bindActionCreators(actions, dispatch),
+});
+
+export default connect(null, mapDispatchToProps)(withStyles(styles)(Layout));

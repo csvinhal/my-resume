@@ -2,7 +2,7 @@ import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
 import withStyles from '@material-ui/core/styles/withStyles';
 import Typography from '@material-ui/core/Typography';
-import NoSim from '@material-ui/icons/NoSim';
+import SvgIcon from '@material-ui/core/SvgIcon';
 import PropTypes from 'prop-types';
 import React from 'react';
 
@@ -47,12 +47,15 @@ const EmptyState = (props) => {
     title,
     message,
     buttonName,
+    svgPath,
   } = props;
 
   return (
     <div className={classes.container}>
       <Paper className={classes.paper}>
-        <NoSim className={classes.noDocument} color="action" style={{ fontSize: 100 }} />
+        <SvgIcon className={classes.noDocument} color="action" style={{ fontSize: 100 }}>
+          <path d={svgPath} />
+        </SvgIcon>
         <Typography className={classes.title} align="center" component="h1" variant="h6" color="default" gutterBottom>
           {title}
         </Typography>
@@ -74,6 +77,7 @@ EmptyState.propTypes = {
   title: PropTypes.string.isRequired,
   message: PropTypes.string.isRequired,
   buttonName: PropTypes.string.isRequired,
+  svgPath: PropTypes.string.isRequired,
 };
 
 export default withStyles(styles)(EmptyState);

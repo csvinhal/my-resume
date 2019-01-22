@@ -4,7 +4,7 @@ import React from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import './App.css';
 import authGuard from './hoc/AuthGuard';
-import Resumes from './screens/signIn/resumes/resumes';
+import Resumes from './screens/resumes/resumes';
 import SignIn from './screens/signIn/signIn';
 import SignUp from './screens/signUp/signUp';
 

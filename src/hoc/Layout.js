@@ -67,13 +67,13 @@ class Layout extends React.Component {
 
     return (
       <div>
-        <div className={classes.root}>
+        <header className={classes.root}>
           <AppBar position="static">
             <Toolbar>
               <Typography variant="h6" color="inherit" className={classes.grow}>
                 <Link to="/resumes" className={classes.link}>
                   My Resumes
-              </Link>
+                </Link>
               </Typography>
 
               <div>
@@ -105,10 +105,10 @@ class Layout extends React.Component {
               </div>
             </Toolbar>
           </AppBar>
-        </div>
-        <div>
+        </header>
+        <main>
           {children}
-        </div>
+        </main>
       </div>
     );
   }

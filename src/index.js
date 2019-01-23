@@ -3,13 +3,12 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
-import {
-  applyMiddleware, combineReducers, compose, createStore,
-} from 'redux';
+import { applyMiddleware, combineReducers, compose, createStore } from 'redux';
 import createSagaMiddleware from 'redux-saga';
 import App from './App';
 import './index.css';
 import authReducer from './reducers/auth';
+import resumeReducer from './reducers/resume';
 import watchAuth from './sagas';
 import * as serviceWorker from './serviceWorker';
 
@@ -18,6 +17,7 @@ const composeEnhancers = process.env.NODE_ENV === 'development' ? window.__REDUX
 
 const rootReducer = combineReducers({
   auth: authReducer,
+  resume: resumeReducer,
 });
 
 const sagaMiddleware = createSagaMiddleware();
@@ -38,7 +38,6 @@ const app = (
   </Provider>
 );
 
-// eslint-disable-next-line no-undef
 ReactDOM.render(app, document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change

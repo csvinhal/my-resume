@@ -1,7 +1,8 @@
 import axios from 'axios';
 import moment from 'moment';
 
-const API_KEY = 'AIzaSyBzUifyuHqcbjC-oH1rYkXsxSiBG2qznjU';
+export const API_KEY = 'AIzaSyBzUifyuHqcbjC-oH1rYkXsxSiBG2qznjU';
+
 const SIGNUP_URL = 'https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser/';
 const SIGIN_URL = 'https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword/';
 

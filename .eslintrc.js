@@ -5,6 +5,7 @@ module.exports = {
     },
     "globals": {
         "window": true,
-        "localStorage": true
+        "localStorage": true,
+        "document": true
     }
 };

@@ -22,8 +22,7 @@ const initialState = {
 
 const requestStarted = state => ({
   ...state, isLoading: true, error: null, shouldRedirect: false,
-}
-);
+});
 
 const requestSucceeded = (state, action) => (
   {

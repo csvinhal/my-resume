@@ -105,14 +105,14 @@ class SignUp extends Component {
       <div>
         {isAthenticated && <Redirect to="/resumes" />}
         {!isAthenticated && isLoading && <LoadingState />}
-        {!isAthenticated && !isLoading && error && (
+        {!isAthenticated && !isLoading && !hasError && (
           <AlertContent
             onClose={this.closeAlertHandler}
             open={hasError}
             variant="error"
             message={error.message}
           />)}
-        {!isAthenticated && !isLoading && (
+        {!isAthenticated && !isLoading && !hasError && (
           <main className={classes.content}>
             <Paper className={classes.paper}>
               <Avatar className={classes.avatar}>

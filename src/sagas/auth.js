@@ -1,9 +1,12 @@
+import moment from 'moment';
 import { call, put } from 'redux-saga/effects';
 import { actions } from '../reducers/auth';
 import {
-  isValidToken, login, register, removeStorageData,
+  isValidToken,
+  login,
+  register,
+  removeStorageData,
 } from '../shared/auth';
-import moment from 'moment';
 
 export function* signup(action) {
   try {

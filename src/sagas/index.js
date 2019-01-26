@@ -4,7 +4,7 @@ import { types as resumeTypes } from '../reducers/resume';
 import {
   signup, signin, checkAuthTokenValidate, checkLocalStorageTokenValidate,
 } from './auth';
-import { fetchAllResumesStart } from './resume';
+import { deleteResumeRequest, fetchAllResumesStart } from './resume';
 
 export default function* watchAuth() {
   yield takeEvery(authTypes.SIGNUP_REQUEST, signup);
@@ -13,4 +13,5 @@ export default function* watchAuth() {
   yield takeEvery(authTypes.AUTH_CHECK_LOCAL_STORAGE_TOKEN, checkLocalStorageTokenValidate);
 
   yield takeEvery(resumeTypes.FETCH_ALL_RESUMES_REQUEST, fetchAllResumesStart);
+  yield takeEvery(resumeTypes.DELETE_RESUME_RESQUEST, deleteResumeRequest);
 }

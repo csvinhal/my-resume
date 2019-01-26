@@ -107,7 +107,7 @@ class SignIn extends Component {
             variant="error"
             message={error.message}
           />)}
-        {!isAthenticated && !isLoading && !hasError && (
+        {!isAthenticated && !isLoading && (
           <main className={classes.content}>
             <Paper className={classes.paper}>
               <Avatar className={classes.avatar}>

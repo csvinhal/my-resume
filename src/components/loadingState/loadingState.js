@@ -6,12 +6,13 @@ import React from 'react';
 
 const styles = theme => ({
   loading: {
-    height: '100vh;',
+    height: '100%;',
     width: '100%;',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
+    marginTop: theme.spacing.unit * 5 * 5,
   },
   progress: {
     margin: theme.spacing.unit * 2,

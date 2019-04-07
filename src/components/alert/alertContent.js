@@ -78,12 +78,13 @@ const AlertContent = (props) => {
 };
 
 AlertContent.defaultProps = {
-  className: 'undefined',
+  className: '',
+  message: '',
 };
 
 AlertContent.propTypes = {
   className: PropTypes.string,
-  message: PropTypes.string.isRequired,
+  message: PropTypes.string,
   onClose: PropTypes.func.isRequired,
   variant: PropTypes.oneOf(['success', 'warning', 'error', 'info']).isRequired,
 };

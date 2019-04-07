@@ -1,27 +1,24 @@
 export const types = {
   AUTH_CHECK_LOCAL_STORAGE_TOKEN: 'AUTH_CHECK_LOCAL_STORAGE_TOKEN',
-  SIGNIN_REQUEST: 'SIGNIN_REQUEST',
+  SIGNIN_REQUEST: '[Auth] Sign in requested',
   SIGNUP_REQUEST: 'SIGNUP_REQUEST',
   SIGNIN_SUCCESS: 'SIGNIN_SUCCESS',
   SIGNUP_SUCCESS: 'SIGNUP_SUCCESS',
-  SIGNIN_FAILED: 'SIGNIN_FAILED',
+  SIGNIN_FAILED: '[Auth] Sign in failed',
   SIGNUP_FAILED: 'SIGNUP_FAILED',
   AUTH_CHECK_TOKEN_VALIDATE: 'AUTH_CHECK_TOKEN_VALIDATE',
   SIGNOUT: 'SIGNOUT',
-  CLOSE_ALERT: 'CLOSE_ALERT',
 };
 
 const initialState = {
   token: null,
   userId: null,
   expirationDate: null,
-  isLoading: false,
   shouldRedirect: false,
-  error: null,
 };
 
 const requestStarted = state => ({
-  ...state, isLoading: true, error: null, shouldRedirect: false,
+  ...state, shouldRedirect: false,
 });
 
 const requestSucceeded = (state, action) => (
@@ -30,16 +27,13 @@ const requestSucceeded = (state, action) => (
     token: action.token,
     userId: action.userId,
     expirationDate: action.expirationDate,
-    isLoading: false,
     shouldRedirect: false,
   }
 );
 
-const requestFailed = (state, action) => (
-  { ...state, isLoading: false, error: action.error }
+const requestFailed = state => (
+  { ...state }
 );
-
-const closeAlert = state => ({ ...state, error: null });
 
 const signout = state => ({
   ...state, token: null, userId: null, expirationDate: null, shouldRedirect: true,
@@ -58,8 +52,6 @@ export default (state = initialState, action) => {
       return requestFailed(state, action);
     case types.SIGNOUT:
       return signout(state);
-    case types.CLOSE_ALERT:
-      return closeAlert(state, action);
     default:
       return state;
   }
@@ -74,11 +66,11 @@ export const actions = {
   signInSuccess: (token, userId, expirationDate) => ({
     type: types.SIGNIN_SUCCESS, token, userId, expirationDate,
   }),
-  signUpFailed: error => ({
-    type: types.SIGNUP_FAILED, error,
+  signUpFailed: () => ({
+    type: types.SIGNUP_FAILED,
   }),
-  signInFailed: error => ({
-    type: types.SIGNIN_FAILED, error,
+  signInFailed: () => ({
+    type: types.SIGNIN_FAILED,
   }),
   checkAuthTokenValidate: expirationDate => ({
     type: types.AUTH_CHECK_TOKEN_VALIDATE,
@@ -86,5 +78,4 @@ export const actions = {
   }),
   checkLocalStorageTokenValidate: () => ({ type: types.AUTH_CHECK_LOCAL_STORAGE_TOKEN }),
   signout: () => ({ type: types.SIGNOUT }),
-  closeAlert: () => ({ type: types.CLOSE_ALERT }),
 };

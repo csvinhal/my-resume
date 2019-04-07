@@ -3,11 +3,18 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
-import { applyMiddleware, combineReducers, compose, createStore } from 'redux';
+import {
+  applyMiddleware,
+  combineReducers,
+  compose,
+  createStore,
+} from 'redux';
 import createSagaMiddleware from 'redux-saga';
 import App from './App';
 import './index.css';
+import alertReducer from './reducers/alert';
 import authReducer from './reducers/auth';
+import loadingReducer from './reducers/loadingState';
 import resumeReducer from './reducers/resume';
 import watchAuth from './sagas';
 import * as serviceWorker from './serviceWorker';
@@ -16,7 +23,9 @@ import * as serviceWorker from './serviceWorker';
 const composeEnhancers = process.env.NODE_ENV === 'development' ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ : null || compose;
 
 const rootReducer = combineReducers({
+  alert: alertReducer,
   auth: authReducer,
+  loading: loadingReducer,
   resume: resumeReducer,
 });
 

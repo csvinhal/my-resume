@@ -1,6 +1,8 @@
 import moment from 'moment';
 import { call, put } from 'redux-saga/effects';
 import { actions } from '../reducers/auth';
+import * as fromLoadingState from '../reducers/loadingState';
+import * as fromAlertState from '../reducers/alert';
 import {
   isValidToken,
   login,
@@ -10,20 +12,40 @@ import {
 
 export function* signup(action) {
   try {
+    yield fromLoadingState.actions.showLoader();
     const response = yield call(register, action.email, action.password);
-    yield put(actions.signUpSuccess(response.idToken, response.localId, response.expirationDate));
+    yield put(
+      actions.signUpSuccess(
+        response.idToken,
+        response.localId,
+        response.expirationDate,
+      ),
+    );
   } catch (err) {
     yield put(actions.signUpFailed(err.response.data.error));
   }
+
+  yield fromLoadingState.actions.closeLoader();
 }
 
 export function* signin(action) {
   try {
+    yield put(fromLoadingState.actions.showLoader());
     const response = yield call(login, action.email, action.password);
-    yield put(actions.signInSuccess(response.idToken, response.localId, response.expirationDate));
+    yield put(
+      actions.signInSuccess(
+        response.idToken,
+        response.localId,
+        response.expirationDate,
+      ),
+    );
   } catch (err) {
-    yield put(actions.signInFailed(err.response.data.error));
+    yield put(fromLoadingState.actions.closeLoader());
+    yield put(fromAlertState.actions.showErrorMessage(err.response.data.error.message));
+    yield put(actions.signInFailed());
   }
+
+  yield fromLoadingState.actions.closeLoader();
 }
 
 export function* checkAuthTokenValidate(action) {
@@ -41,7 +63,9 @@ export function* checkLocalStorageTokenValidate() {
     yield put(actions.signout());
   } else {
     const userId = yield localStorage.getItem('userId');
-    const expirationDate = yield moment(new Date(localStorage.getItem('expirationDate')));
+    const expirationDate = yield moment(
+      new Date(localStorage.getItem('expirationDate')),
+    );
     yield put(actions.signInSuccess(token, userId, expirationDate));
   }
 }

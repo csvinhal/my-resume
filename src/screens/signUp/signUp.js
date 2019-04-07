@@ -12,8 +12,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
-import AlertContent from '../../components/alert/alert';
-import LoadingState from '../../components/loadingState/loadingState';
 import { actions } from '../../reducers/auth';
 
 const styles = theme => ({
@@ -68,7 +66,6 @@ class SignUp extends Component {
     this.navigationSignInHandler = this.navigationSignInHandler.bind(this);
     this.submitHandler = this.submitHandler.bind(this);
     this.inputChangedHandler = this.inputChangedHandler.bind(this);
-    this.closeAlertHandler = this.closeAlertHandler.bind(this);
   }
 
   navigationSignInHandler() {
@@ -91,28 +88,15 @@ class SignUp extends Component {
     });
   }
 
-  closeAlertHandler() {
-    const { closeAlert } = this.props;
-    closeAlert();
-  }
-
   render() {
     const {
-      classes, isLoading, error, hasError, isAthenticated,
+      classes, isLoading, isAthenticated,
     } = this.props;
 
     return (
       <div>
         {isAthenticated && <Redirect to="/resumes" />}
-        {!isAthenticated && isLoading && <LoadingState />}
-        {!isAthenticated && !isLoading && !hasError && (
-          <AlertContent
-            onClose={this.closeAlertHandler}
-            open={hasError}
-            variant="error"
-            message={error.message}
-          />)}
-        {!isAthenticated && !isLoading && !hasError && (
+        {!isAthenticated && !isLoading && (
           <main className={classes.content}>
             <Paper className={classes.paper}>
               <Avatar className={classes.avatar}>
@@ -159,22 +143,15 @@ SignUp.propTypes = {
   classes: PropTypes.instanceOf(Object).isRequired,
   history: PropTypes.instanceOf(Object).isRequired,
   signup: PropTypes.func.isRequired,
-  closeAlert: PropTypes.func.isRequired,
-  error: PropTypes.instanceOf(Object),
   isLoading: PropTypes.bool.isRequired,
   isAthenticated: PropTypes.bool.isRequired,
-  hasError: PropTypes.bool.isRequired,
-};
-
-SignUp.defaultProps = {
-  error: null,
 };
 
 const mapStateToProps = state => ({
-  isLoading: state.auth.isLoading,
   error: state.auth.error,
   hasError: !!state.auth.error,
   isAthenticated: !!state.auth.token,
+  isLoading: state.loading.showLoader,
 });
 
 const mapDispatchToProps = dispatch => ({

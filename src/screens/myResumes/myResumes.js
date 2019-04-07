@@ -42,7 +42,6 @@ class MyResumes extends Component {
     } = this.props;
     return (
       <Layout>
-        {isLoading && <LoadingState />}
         {!isLoading && !!showAlert && (
           <AlertContent
             onClose={this.closeAlertHandler}
@@ -83,10 +82,10 @@ MyResumes.defaultProps = {
 };
 
 const mapStateToProps = state => ({
-  isLoading: state.resume.isLoading,
-  error: state.resume.error,
-  showAlert: state.resume.showAlert,
   token: state.auth.token,
+  showAlert: state.alert.showAlert,
+  isLoading: state.loading.showLoader,
+  error: state.resume.error,
   resumes: state.resume.resumes,
 });
 

@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import AlertContent from '../../components/alert/alert';
 import EmptyState from '../../components/emptyState/emptyState';
-import LoadingState from '../../components/loadingState/loadingState';
+// import LoadingState from '../../components/loadingState/loadingState';
 import Resumes from '../../components/resumes/resumes';
 import Layout from '../../hoc/Layout';
 import { actions } from '../../reducers/resume';

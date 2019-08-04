@@ -1,8 +1,8 @@
 import moment from "moment";
 import { call, put } from "redux-saga/effects";
-import * as fromAlertState from "../reducers/alert";
-import { actions } from "../reducers/auth";
-import * as fromLoadingState from "../reducers/loadingState";
+import { actions as actionsAlert } from "../reducers/alert";
+import { actions as actionsAuth } from "../reducers/auth";
+import { actions as actionsLoadingState } from "../reducers/loadingState";
 import {
   isValidToken,
   login,
@@ -11,54 +11,55 @@ import {
 } from "../shared/auth";
 
 export function* signUp(action) {
+  const { showLoader, closeLoader } = actionsLoadingState;
   try {
-    yield fromLoadingState.actions.showLoader();
+    const { signUpSuccess } = actionsAuth;
     const { email, password } = action;
+    yield put(showLoader());
     const response = yield call(register, { email, password });
+    const { idToken, localId, expirationDate } = response;
     yield put(
-      actions.signUpSuccess(
-        response.idToken,
-        response.localId,
-        response.expirationDate
-      )
+      signUpSuccess({ token: idToken, userId: localId, expirationDate })
     );
   } catch (err) {
-    yield put(
-      fromAlertState.actions.showErrorMessage(err.response.data.error.message)
-    );
-    yield put(actions.signUpFailed());
+    const { showErrorMessage } = actionsAlert;
+    const { signUpFailed } = actionsAuth;
+    yield put(showErrorMessage(err.response.data.error.message));
+    yield put(signUpFailed());
   }
 
-  yield fromLoadingState.actions.closeLoader();
+  yield put(closeLoader());
 }
 
 export function* signIn(action) {
+  const { showLoader, closeLoader } = actionsLoadingState;
   try {
-    yield put(fromLoadingState.actions.showLoader());
+    const { signInSuccess } = actionsAuth;
+    yield put(showLoader());
     const response = yield call(login, action.email, action.password);
+    const { idToken, localId, expirationDate } = response;
     yield put(
-      actions.signInSuccess(
-        response.idToken,
-        response.localId,
-        response.expirationDate
-      )
+      signInSuccess({
+        token: idToken,
+        userId: localId,
+        expirationDate,
+      })
     );
   } catch (err) {
-    yield put(fromLoadingState.actions.closeLoader());
-    yield put(
-      fromAlertState.actions.showErrorMessage(err.response.data.error.message)
-    );
-    yield put(actions.signInFailed());
+    const { signInFailed } = actionsAuth;
+    const { showErrorMessage } = actionsAlert;
+    yield put(showErrorMessage(err.response.data.error.message));
+    yield put(signInFailed());
   }
 
-  yield fromLoadingState.actions.closeLoader();
+  yield put(closeLoader());
 }
 
 export function* checkAuthTokenValidate(action) {
   const isValid = yield call(isValidToken, action.expirationDate);
   if (!isValid) {
     yield call(removeStorageData);
-    yield put(actions.signOut());
+    yield put(actionsAuth.signOut());
   }
 }
 
@@ -66,12 +67,12 @@ export function* checkLocalStorageTokenValidate() {
   const token = yield localStorage.getItem("token");
   if (!token) {
     yield call(removeStorageData);
-    yield put(actions.signOut());
+    yield put(actionsAuth.signOut());
   } else {
     const userId = yield localStorage.getItem("userId");
     const expirationDate = yield moment(
       new Date(localStorage.getItem("expirationDate"))
     );
-    yield put(actions.signInSuccess(token, userId, expirationDate));
+    yield put(actionsAuth.signInSuccess(token, userId, expirationDate));
   }
 }

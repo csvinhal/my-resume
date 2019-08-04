@@ -71,7 +71,7 @@ class SignUp extends Component {
 
   navigationSignInHandler() {
     const { history } = this.props;
-    history.push("/signin");
+    history.push("/sign-in");
   }
 
   submitHandler(event) {

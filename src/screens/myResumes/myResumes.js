@@ -1,20 +1,17 @@
-import PropTypes from 'prop-types';
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import AlertContent from '../../components/alert/alert';
-import EmptyState from '../../components/emptyState/emptyState';
-// import LoadingState from '../../components/loadingState/loadingState';
-import Resumes from '../../components/resumes/resumes';
-import Layout from '../../hoc/Layout';
-import { actions } from '../../reducers/resume';
+import PropTypes from "prop-types";
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import EmptyState from "../../components/emptyState/emptyState";
+import Resumes from "../../components/resumes/resumes";
+import Layout from "../../hoc/Layout";
+import { actions } from "../../reducers/resume";
 
 class MyResumes extends Component {
   constructor(props) {
     super(props);
     this.state = {};
 
-    this.closeAlertHandler = this.closeAlertHandler.bind(this);
     this.handleRemoveResume = this.handleRemoveResume.bind(this);
   }
 
@@ -23,33 +20,15 @@ class MyResumes extends Component {
     onFetchAllResumesStart(token);
   }
 
-  closeAlertHandler() {
-    const { closeAlert } = this.props;
-    closeAlert();
-  }
-
   handleRemoveResume(id) {
     const { token, onDeleteResume } = this.props;
     onDeleteResume(id, token);
   }
 
   render() {
-    const {
-      isLoading,
-      error,
-      showAlert,
-      resumes,
-    } = this.props;
+    const { isLoading, error, resumes } = this.props;
     return (
       <Layout>
-        {!isLoading && !!showAlert && (
-          <AlertContent
-            onClose={this.closeAlertHandler}
-            open={showAlert}
-            variant="error"
-            message={error && error.error}
-          />
-        )}
         {!isLoading && !error && !!resumes.length && (
           <Resumes resumes={resumes} remove={this.handleRemoveResume} />
         )}
@@ -68,9 +47,7 @@ class MyResumes extends Component {
 
 MyResumes.propTypes = {
   onFetchAllResumesStart: PropTypes.func.isRequired,
-  closeAlert: PropTypes.func.isRequired,
   error: PropTypes.instanceOf(Object),
-  showAlert: PropTypes.bool.isRequired,
   isLoading: PropTypes.bool.isRequired,
   token: PropTypes.string.isRequired,
   resumes: PropTypes.instanceOf(Array).isRequired,
@@ -83,7 +60,6 @@ MyResumes.defaultProps = {
 
 const mapStateToProps = state => ({
   token: state.auth.token,
-  showAlert: state.alert.showAlert,
   isLoading: state.loading.showLoader,
   error: state.resume.error,
   resumes: state.resume.resumes,
@@ -93,4 +69,7 @@ const mapDispatchToProps = dispatch => ({
   ...bindActionCreators(actions, dispatch),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(MyResumes);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(MyResumes);

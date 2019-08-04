@@ -33,7 +33,7 @@ class App extends React.Component {
         <Switch>
           <Route path="/sign-in" component={SignIn} />
           <Route path="/sign-up" component={SignUp} />
-          <PrivateRoute path="/my-resumes" exact component={MyResumes} />
+          <PrivateRoute path="/my-resumes" component={MyResumes} />
           <Redirect to="/my-resumes" />
         </Switch>
         {isLoading && <LoadingState />}

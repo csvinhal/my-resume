@@ -19,5 +19,5 @@ export default function* watchAuth() {
   );
 
   yield takeEvery(resumeTypes.FETCH_ALL_RESUMES_REQUEST, fetchAllResumesStart);
-  yield takeEvery(resumeTypes.DELETE_RESUME_RESQUEST, deleteResumeRequest);
+  yield takeEvery(resumeTypes.DELETE_RESUME_REQUEST, deleteResumeRequest);
 }

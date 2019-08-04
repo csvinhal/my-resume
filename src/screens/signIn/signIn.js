@@ -65,9 +65,8 @@ class SignIn extends Component {
   }
 
   navigationSignUpHandler() {
-    console.log('passou aqui');
     const { history } = this.props;
-    history.push('/signup');
+    history.push('/sign-up');
   }
 
   inputChangedHandler(event) {
@@ -87,12 +86,12 @@ class SignIn extends Component {
 
   render() {
     const {
-      classes, isLoading, isAthenticated,
+      classes, isLoading, isAuthenticated,
     } = this.props;
     return (
       <div>
-        {isAthenticated && <Redirect to="/resumes" />}
-        {!isAthenticated && !isLoading && (
+        {isAuthenticated && <Redirect to="/resumes" />}
+        {!isAuthenticated && !isLoading && (
           <main className={classes.content}>
             <Paper className={classes.paper}>
               <Avatar className={classes.avatar}>
@@ -139,13 +138,13 @@ SignIn.propTypes = {
   login: PropTypes.func.isRequired,
   history: PropTypes.instanceOf(Object).isRequired,
   isLoading: PropTypes.bool.isRequired,
-  isAthenticated: PropTypes.bool.isRequired,
+  isAuthenticated: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = state => ({
   error: state.auth.error,
   hasError: !!state.auth.error,
-  isAthenticated: !!state.auth.token,
+  isAuthenticated: !!state.auth.token,
   isLoading: state.loading.showLoader,
 });
 

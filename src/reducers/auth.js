@@ -3,11 +3,11 @@ export const types = {
   SIGN_IN_REQUEST: '[Auth] Sign in requested',
   SIGN_UP_REQUEST: '[Auth] Sign up requested',
   SIGN_IN_SUCCEEDED: '[Auth] Sign in succeeded',
-  SIGNUP_SUCCESS: 'SIGNUP_SUCCESS',
-  SIGNIN_FAILED: '[Auth] Sign in failed',
-  SIGNUP_FAILED: 'SIGNUP_FAILED',
-  AUTH_CHECK_TOKEN_VALIDATE: 'AUTH_CHECK_TOKEN_VALIDATE',
-  SIGNOUT: 'SIGNOUT',
+  SIGN_UP_SUCCESS: '[Auth] Sign up succeeded',
+  SIGN_IN_FAILED: '[Auth] Sign in failed',
+  SIGN_UP_FAILED: '[Auth] Sign up failed',
+  AUTH_CHECK_TOKEN_VALIDATE: '[Auth] check token validate',
+  SIGN_OUT: '[Auth] Sign out',
 };
 
 const initialState = {
@@ -35,7 +35,7 @@ const requestFailed = state => (
   { ...state }
 );
 
-const signout = state => ({
+const signOut = state => ({
   ...state, token: null, userId: null, expirationDate: null, shouldRedirect: true,
 });
 
@@ -45,37 +45,37 @@ export default (state = initialState, action) => {
     case types.SIGN_UP_REQUEST:
       return requestStarted(state, action);
     case types.SIGN_IN_SUCCEEDED:
-    case types.SIGNUP_SUCCESS:
+    case types.SIGN_UP_SUCCESS:
       return requestSucceeded(state, action);
-    case types.SIGNIN_FAILED:
-    case types.SIGNUP_FAILED:
+    case types.SIGN_IN_FAILED:
+    case types.SIGN_UP_FAILED:
       return requestFailed(state, action);
-    case types.SIGNOUT:
-      return signout(state);
+    case types.SIGN_OUT:
+      return signOut(state);
     default:
       return state;
   }
 };
 
 export const actions = {
-  signup: (email, password) => ({ type: types.SIGN_UP_REQUEST, email, password }),
+  signUp: (email, password) => ({ type: types.SIGN_UP_REQUEST, email, password }),
   login: (email, password) => ({ type: types.SIGN_IN_REQUEST, email, password }),
   signUpSuccess: (token, userId, expirationDate) => ({
-    type: types.SIGNUP_SUCCESS, token, userId, expirationDate,
+    type: types.SIGN_UP_SUCCESS, token, userId, expirationDate,
   }),
   signInSuccess: (token, userId, expirationDate) => ({
     type: types.SIGN_IN_SUCCEEDED, token, userId, expirationDate,
   }),
   signUpFailed: () => ({
-    type: types.SIGNUP_FAILED,
+    type: types.SIGN_UP_FAILED,
   }),
   signInFailed: () => ({
-    type: types.SIGNIN_FAILED,
+    type: types.SIGN_IN_FAILED,
   }),
   checkAuthTokenValidate: expirationDate => ({
     type: types.AUTH_CHECK_TOKEN_VALIDATE,
     expirationDate,
   }),
   checkLocalStorageTokenValidate: () => ({ type: types.AUTH_CHECK_LOCAL_STORAGE_TOKEN }),
-  signout: () => ({ type: types.SIGNOUT }),
+  signOut: () => ({ type: types.SIGN_OUT }),
 };

@@ -77,9 +77,9 @@ class SignUp extends Component {
   submitHandler(event) {
     event.preventDefault();
     const { email, password } = this.state;
-    const { signup } = this.props;
+    const { signUp } = this.props;
 
-    signup(email, password);
+    signUp(email, password);
   }
 
   inputChangedHandler(event) {
@@ -153,7 +153,7 @@ class SignUp extends Component {
 SignUp.propTypes = {
   classes: PropTypes.instanceOf(Object).isRequired,
   history: PropTypes.instanceOf(Object).isRequired,
-  signup: PropTypes.func.isRequired,
+  signUp: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
   isAuthenticated: PropTypes.bool.isRequired,
 };

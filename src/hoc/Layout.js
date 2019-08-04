@@ -26,7 +26,7 @@ const styles = theme => ({
   },
   link: {
     color: "inherit",
-    margin: theme.spacing.unit,
+    margin: theme.spacing(1),
     textDecoration: "none",
     "&:hover": {
       textDecoration: "underline",

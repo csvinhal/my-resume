@@ -18,7 +18,7 @@ const styles = theme => ({
     zIndex: '9999',
   },
   progress: {
-    margin: theme.spacing.unit * 2,
+    margin: theme.spacing(2),
     animationDuration: '3s',
   },
 });

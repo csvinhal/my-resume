@@ -10,9 +10,9 @@ const styles = theme => ({
   container: {
     width: 'auto',
     display: 'block', // Fix IE 11 issue.
-    marginLeft: theme.spacing.unit * 3,
-    marginRight: theme.spacing.unit * 3,
-    [theme.breakpoints.up(800 + theme.spacing.unit * 3 * 2)]: {
+    marginLeft: theme.spacing(3),
+    marginRight: theme.spacing(3),
+    [theme.breakpoints.up(800 + theme.spacing(6))]: {
       width: 800,
       marginLeft: 'auto',
       marginRight: 'auto',
@@ -20,17 +20,17 @@ const styles = theme => ({
   },
   paper: {
     width: '100%;',
-    marginTop: theme.spacing.unit * 8,
+    marginTop: theme.spacing(8),
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
   },
   title: {
-    marginTop: theme.spacing.unit,
+    marginTop: theme.spacing(1),
   },
   list: {
     width: '80%',
-    marginLeft: theme.spacing.unit * 3,
+    marginLeft: theme.spacing(3),
   },
 });
 
@@ -41,7 +41,7 @@ const Resumes = (props) => {
   return (
     <div className={classes.container}>
       <Paper className={classes.paper}>
-        <Typography className={classes.title} align="center" component="h1" variant="h3" color="default" gutterBottom>
+        <Typography className={classes.title} align="center" component="h1" variant="h3" color="inherit" gutterBottom>
           My resumes
         </Typography>
 

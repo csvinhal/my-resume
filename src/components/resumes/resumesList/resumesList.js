@@ -11,7 +11,7 @@ import React from 'react';
 
 const styles = theme => ({
   container: {
-    marginTop: theme.spacing.unit,
+    marginTop: theme.spacing(),
     width: '80%',
   },
   icon: {

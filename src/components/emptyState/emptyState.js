@@ -11,9 +11,9 @@ const styles = theme => ({
   container: {
     width: 'auto',
     display: 'block', // Fix IE 11 issue.
-    marginLeft: theme.spacing.unit * 3,
-    marginRight: theme.spacing.unit * 3,
-    [theme.breakpoints.up(800 + theme.spacing.unit * 3 * 2)]: {
+    marginLeft: theme.spacing(3),
+    marginRight: theme.spacing(3),
+    [theme.breakpoints.up(800 + theme.spacing(6))]: {
       width: 800,
       marginLeft: 'auto',
       marginRight: 'auto',
@@ -21,23 +21,23 @@ const styles = theme => ({
   },
   paper: {
     width: '100%;',
-    marginTop: theme.spacing.unit * 8,
+    marginTop: theme.spacing(8),
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
   },
   noDocument: {
-    marginTop: theme.spacing.unit * 2,
+    marginTop: theme.spacing(2),
   },
   title: {
-    marginTop: theme.spacing.unit,
+    marginTop: theme.spacing(1),
   },
   message: {
-    marginTop: theme.spacing.unit,
+    marginTop: theme.spacing(1),
   },
   button: {
-    margin: theme.spacing.unit,
-    marginBottom: theme.spacing.unit * 2,
+    margin: theme.spacing(1),
+    marginBottom: theme.spacing(2),
   },
 });
 
@@ -47,6 +47,7 @@ const EmptyState = (props) => {
     title,
     message,
     buttonName,
+    buttonClick,
     svgPath,
   } = props;
 
@@ -56,7 +57,7 @@ const EmptyState = (props) => {
         <SvgIcon className={classes.noDocument} color="action" style={{ fontSize: 100 }}>
           <path d={svgPath} />
         </SvgIcon>
-        <Typography className={classes.title} align="center" component="h1" variant="h6" color="default" gutterBottom>
+        <Typography className={classes.title} align="center" component="h1" variant="h6" color="inherit" gutterBottom>
           {title}
         </Typography>
 
@@ -64,7 +65,7 @@ const EmptyState = (props) => {
           {message}
         </Typography>
 
-        <Button variant="contained" color="primary" className={classes.button}>
+        <Button variant="contained" color="primary" className={classes.button} onClick={buttonClick}>
           {buttonName}
         </Button>
       </Paper>
@@ -77,6 +78,7 @@ EmptyState.propTypes = {
   title: PropTypes.string.isRequired,
   message: PropTypes.string.isRequired,
   buttonName: PropTypes.string.isRequired,
+  buttonClick: PropTypes.func.isRequired,
   svgPath: PropTypes.string.isRequired,
 };
 

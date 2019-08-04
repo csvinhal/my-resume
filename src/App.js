@@ -7,6 +7,7 @@ import { bindActionCreators } from "redux";
 import "./App.css";
 import AlertContent from "./components/alert/alert";
 import LoadingState from "./components/loadingState/loadingState";
+import PrivateRoute from "./hoc/PrivateRoute";
 import { actions } from "./reducers/alert";
 import MyResumes from "./screens/myResumes/myResumes";
 import SignIn from "./screens/signIn/signIn";
@@ -30,10 +31,10 @@ class App extends React.Component {
     return (
       <CssBaseline>
         <Switch>
-          <Route path="/signin" component={SignIn} />
-          <Route path="/signup" component={SignUp} />
-          <Route path="/myresumes" exact component={MyResumes} />
-          <Redirect to="/myresumes" />
+          <Route path="/sign-in" component={SignIn} />
+          <Route path="/sign-up" component={SignUp} />
+          <PrivateRoute path="/my-resumes" exact component={MyResumes} />
+          <Redirect to="/my-resumes" />
         </Switch>
         {isLoading && <LoadingState />}
         <AlertContent

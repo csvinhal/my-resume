@@ -10,75 +10,67 @@ import LoadingState from "./components/loadingState/loadingState";
 import PrivateRoute from "./hoc/PrivateRoute";
 import { actions } from "./reducers/alert";
 import MyResumes from "./screens/myResumes/myResumes";
+import NewResume from "./screens/myResumes/newResume/newResume";
 import SignIn from "./screens/signIn/signIn";
 import SignUp from "./screens/signUp/signUp";
 
 class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
+    constructor(props) {
+        super(props);
+        this.state = {};
 
-    this.closeAlertHandler = this.closeAlertHandler.bind(this);
-  }
+        this.closeAlertHandler = this.closeAlertHandler.bind(this);
+    }
 
-  closeAlertHandler() {
-    const { closeAlert } = this.props;
-    closeAlert();
-  }
+    closeAlertHandler() {
+        const { closeAlert } = this.props;
+        closeAlert();
+    }
 
-  render() {
-    const { error, isLoading, showAlert, isAuthenticated } = this.props;
-    return (
-      <CssBaseline>
-        <Switch>
-          <Route path="/sign-in" component={SignIn} />
-          <Route path="/sign-up" component={SignUp} />
-          <PrivateRoute
-            path="/my-resumes"
-            component={MyResumes}
-            isAuthenticated={!!isAuthenticated}
-          />
-          <Redirect to="/my-resumes" />
-        </Switch>
-        {isLoading && <LoadingState />}
-        <AlertContent
-          onClose={this.closeAlertHandler}
-          open={showAlert}
-          variant="error"
-          message={error}
-        />
-      </CssBaseline>
-    );
-  }
+    render() {
+        const { error, isLoading, showAlert } = this.props;
+        return (
+            <CssBaseline>
+                <Switch>
+                    <Route path="/sign-in" component={SignIn} />
+                    <Route path="/sign-up" component={SignUp} />
+                    <PrivateRoute path="/my-resumes" component={MyResumes} exact />
+                    <Route path="/my-resumes/new" component={NewResume} exact />
+                    {/* <PrivateRoute path="/my-resumes/new" component={NewResume} exact /> */}
+                    <Redirect to="/my-resumes" />
+                </Switch>
+                {isLoading && <LoadingState />}
+                <AlertContent onClose={this.closeAlertHandler} open={showAlert} variant="error" message={error} />
+            </CssBaseline>
+        );
+    }
 }
 
 App.defaultProps = {
-  error: null,
+    error: null,
 };
 
 App.propTypes = {
-  closeAlert: PropTypes.func.isRequired,
-  error: PropTypes.string,
-  isLoading: PropTypes.bool.isRequired,
-  showAlert: PropTypes.bool.isRequired,
-  isAuthenticated: PropTypes.bool.isRequired,
+    closeAlert: PropTypes.func.isRequired,
+    error: PropTypes.string,
+    isLoading: PropTypes.bool.isRequired,
+    showAlert: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = state => ({
-  error: state.alert.error,
-  variant: state.alert.variant,
-  showAlert: state.alert.showAlert,
-  isLoading: state.loading.showLoader,
-  isAuthenticated: !!state.auth.token,
+    error: state.alert.error,
+    variant: state.alert.variant,
+    showAlert: state.alert.showAlert,
+    isLoading: state.loading.showLoader,
 });
 
 const mapDispatchToProps = dispatch => ({
-  ...bindActionCreators(actions, dispatch),
+    ...bindActionCreators(actions, dispatch),
 });
 
 export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(App)
+    connect(
+        mapStateToProps,
+        mapDispatchToProps
+    )(App)
 );

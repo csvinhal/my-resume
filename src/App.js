@@ -27,13 +27,17 @@ class App extends React.Component {
   }
 
   render() {
-    const { error, isLoading, showAlert } = this.props;
+    const { error, isLoading, showAlert, isAuthenticated } = this.props;
     return (
       <CssBaseline>
         <Switch>
           <Route path="/sign-in" component={SignIn} />
           <Route path="/sign-up" component={SignUp} />
-          <PrivateRoute path="/my-resumes" component={MyResumes} />
+          <PrivateRoute
+            path="/my-resumes"
+            component={MyResumes}
+            isAuthenticated={!!isAuthenticated}
+          />
           <Redirect to="/my-resumes" />
         </Switch>
         {isLoading && <LoadingState />}
@@ -57,6 +61,7 @@ App.propTypes = {
   error: PropTypes.string,
   isLoading: PropTypes.bool.isRequired,
   showAlert: PropTypes.bool.isRequired,
+  isAuthenticated: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -64,6 +69,7 @@ const mapStateToProps = state => ({
   variant: state.alert.variant,
   showAlert: state.alert.showAlert,
   isLoading: state.loading.showLoader,
+  isAuthenticated: !!state.auth.token,
 });
 
 const mapDispatchToProps = dispatch => ({

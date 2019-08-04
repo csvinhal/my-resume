@@ -1,7 +1,6 @@
 import PropTypes from "prop-types";
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { withRouter } from "react-router-dom";
 import { bindActionCreators } from "redux";
 import EmptyState from "../../components/emptyState/emptyState";
 import Resumes from "../../components/resumes/resumes";
@@ -60,6 +59,7 @@ MyResumes.propTypes = {
   token: PropTypes.string.isRequired,
   resumes: PropTypes.instanceOf(Array).isRequired,
   onDeleteResume: PropTypes.func.isRequired,
+  history: PropTypes.instanceOf(Object).isRequired,
 };
 
 MyResumes.defaultProps = {
@@ -71,16 +71,13 @@ const mapStateToProps = state => ({
   isLoading: state.loading.showLoader,
   error: state.resume.error,
   resumes: state.resume.resumes,
-  history: PropTypes.instanceOf(Object).isRequired,
 });
 
 const mapDispatchToProps = dispatch => ({
   ...bindActionCreators(actions, dispatch),
 });
 
-export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(MyResumes)
-);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(MyResumes);

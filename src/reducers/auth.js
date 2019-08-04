@@ -1,8 +1,8 @@
 export const types = {
   AUTH_CHECK_LOCAL_STORAGE_TOKEN: 'AUTH_CHECK_LOCAL_STORAGE_TOKEN',
-  SIGNIN_REQUEST: '[Auth] Sign in requested',
-  SIGNUP_REQUEST: 'SIGNUP_REQUEST',
-  SIGNIN_SUCCESS: 'SIGNIN_SUCCESS',
+  SIGN_IN_REQUEST: '[Auth] Sign in requested',
+  SIGN_UP_REQUEST: '[Auth] Sign up requested',
+  SIGN_IN_SUCCEEDED: '[Auth] Sign in succeeded',
   SIGNUP_SUCCESS: 'SIGNUP_SUCCESS',
   SIGNIN_FAILED: '[Auth] Sign in failed',
   SIGNUP_FAILED: 'SIGNUP_FAILED',
@@ -41,10 +41,10 @@ const signout = state => ({
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case types.SIGNIN_REQUEST:
-    case types.SIGNUP_REQUEST:
+    case types.SIGN_IN_REQUEST:
+    case types.SIGN_UP_REQUEST:
       return requestStarted(state, action);
-    case types.SIGNIN_SUCCESS:
+    case types.SIGN_IN_SUCCEEDED:
     case types.SIGNUP_SUCCESS:
       return requestSucceeded(state, action);
     case types.SIGNIN_FAILED:
@@ -58,13 +58,13 @@ export default (state = initialState, action) => {
 };
 
 export const actions = {
-  signup: (email, password) => ({ type: types.SIGNUP_REQUEST, email, password }),
-  login: (email, password) => ({ type: types.SIGNIN_REQUEST, email, password }),
+  signup: (email, password) => ({ type: types.SIGN_UP_REQUEST, email, password }),
+  login: (email, password) => ({ type: types.SIGN_IN_REQUEST, email, password }),
   signUpSuccess: (token, userId, expirationDate) => ({
     type: types.SIGNUP_SUCCESS, token, userId, expirationDate,
   }),
   signInSuccess: (token, userId, expirationDate) => ({
-    type: types.SIGNIN_SUCCESS, token, userId, expirationDate,
+    type: types.SIGN_IN_SUCCEEDED, token, userId, expirationDate,
   }),
   signUpFailed: () => ({
     type: types.SIGNUP_FAILED,

@@ -1,22 +1,16 @@
-import CssBaseline from '@material-ui/core/CssBaseline';
-import PropTypes from 'prop-types';
-import React from 'react';
-import { connect } from 'react-redux';
-import {
-  Redirect,
-  Route,
-  Switch,
-  withRouter,
-} from 'react-router-dom';
-import { bindActionCreators } from 'redux';
-import './App.css';
-import AlertContent from './components/alert/alert';
-import authGuard from './hoc/AuthGuard';
-import { actions } from './reducers/alert';
-import MyResumes from './screens/myResumes/myResumes';
-import LoadingState from './components/loadingState/loadingState';
-import SignIn from './screens/signIn/signIn';
-import SignUp from './screens/signUp/signUp';
+import CssBaseline from "@material-ui/core/CssBaseline";
+import PropTypes from "prop-types";
+import React from "react";
+import { connect } from "react-redux";
+import { Redirect, Route, Switch, withRouter } from "react-router-dom";
+import { bindActionCreators } from "redux";
+import "./App.css";
+import AlertContent from "./components/alert/alert";
+import LoadingState from "./components/loadingState/loadingState";
+import { actions } from "./reducers/alert";
+import MyResumes from "./screens/myResumes/myResumes";
+import SignIn from "./screens/signIn/signIn";
+import SignUp from "./screens/signUp/signUp";
 
 class App extends React.Component {
   constructor(props) {
@@ -38,10 +32,10 @@ class App extends React.Component {
         <Switch>
           <Route path="/signin" component={SignIn} />
           <Route path="/signup" component={SignUp} />
-          <Route path="/myresumes" exact component={authGuard(MyResumes)} />
+          <Route path="/myresumes" exact component={MyResumes} />
           <Redirect to="/myresumes" />
         </Switch>
-        {(isLoading && <LoadingState />)}
+        {isLoading && <LoadingState />}
         <AlertContent
           onClose={this.closeAlertHandler}
           open={showAlert}
@@ -75,7 +69,9 @@ const mapDispatchToProps = dispatch => ({
   ...bindActionCreators(actions, dispatch),
 });
 
-export default withRouter(connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(App));
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(App)
+);

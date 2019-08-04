@@ -13,7 +13,8 @@ import {
 export function* signUp(action) {
   try {
     yield fromLoadingState.actions.showLoader();
-    const response = yield call(register, action.email, action.password);
+    const { email, password } = action;
+    const response = yield call(register, { email, password });
     yield put(
       actions.signUpSuccess(
         response.idToken,
@@ -22,7 +23,10 @@ export function* signUp(action) {
       )
     );
   } catch (err) {
-    yield put(actions.signUpFailed(err.response.data.error));
+    yield put(
+      fromAlertState.actions.showErrorMessage(err.response.data.error.message)
+    );
+    yield put(actions.signUpFailed());
   }
 
   yield fromLoadingState.actions.closeLoader();

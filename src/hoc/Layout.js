@@ -1,17 +1,17 @@
-import AppBar from '@material-ui/core/AppBar';
-import IconButton from '@material-ui/core/IconButton';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
-import { withStyles } from '@material-ui/core/styles';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import AccountCircle from '@material-ui/icons/AccountCircle';
-import PropTypes from 'prop-types';
-import React from 'react';
-import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { bindActionCreators } from 'redux';
-import { actions } from '../reducers/auth';
+import AppBar from "@material-ui/core/AppBar";
+import IconButton from "@material-ui/core/IconButton";
+import Menu from "@material-ui/core/Menu";
+import MenuItem from "@material-ui/core/MenuItem";
+import { withStyles } from "@material-ui/core/styles";
+import Toolbar from "@material-ui/core/Toolbar";
+import Typography from "@material-ui/core/Typography";
+import AccountCircle from "@material-ui/icons/AccountCircle";
+import PropTypes from "prop-types";
+import React from "react";
+import { connect } from "react-redux";
+import { Link } from "react-router-dom";
+import { bindActionCreators } from "redux";
+import { actions } from "../reducers/auth";
 
 const styles = theme => ({
   root: {
@@ -25,11 +25,11 @@ const styles = theme => ({
     marginRight: 20,
   },
   link: {
-    color: 'inherit',
+    color: "inherit",
     margin: theme.spacing.unit,
-    textDecoration: 'none',
-    '&:hover': {
-      textDecoration: 'underline',
+    textDecoration: "none",
+    "&:hover": {
+      textDecoration: "underline",
     },
   },
 });
@@ -43,7 +43,7 @@ class Layout extends React.Component {
 
     this.handleMenu = this.handleMenu.bind(this);
     this.handleClose = this.handleClose.bind(this);
-    this.handleSignout = this.handleSignout.bind(this);
+    this.handleSignOut = this.handleSignOut.bind(this);
   }
 
   handleMenu(event) {
@@ -54,10 +54,10 @@ class Layout extends React.Component {
     this.setState({ anchorEl: null });
   }
 
-  handleSignout() {
-    const { signout } = this.props;
+  handleSignOut() {
+    const { signOut } = this.props;
 
-    signout();
+    signOut();
   }
 
   render() {
@@ -78,7 +78,7 @@ class Layout extends React.Component {
 
               <div>
                 <IconButton
-                  aria-owns={open ? 'menu-appbar' : undefined}
+                  aria-owns={open ? "menu-appbar" : undefined}
                   aria-haspopup="true"
                   onClick={this.handleMenu}
                   color="inherit"
@@ -89,26 +89,24 @@ class Layout extends React.Component {
                   id="menu-appbar"
                   anchorEl={anchorEl}
                   anchorOrigin={{
-                    vertical: 'top',
-                    horizontal: 'right',
+                    vertical: "top",
+                    horizontal: "right",
                   }}
                   transformOrigin={{
-                    vertical: 'top',
-                    horizontal: 'right',
+                    vertical: "top",
+                    horizontal: "right",
                   }}
                   open={open}
                   onClose={this.handleClose}
                 >
                   <MenuItem onClick={this.handleClose}>Profile</MenuItem>
-                  <MenuItem onClick={this.handleSignout}>Signout</MenuItem>
+                  <MenuItem onClick={this.handleSignOut}>Signout</MenuItem>
                 </Menu>
               </div>
             </Toolbar>
           </AppBar>
         </header>
-        <main>
-          {children}
-        </main>
+        <main>{children}</main>
       </div>
     );
   }
@@ -117,11 +115,14 @@ class Layout extends React.Component {
 Layout.propTypes = {
   classes: PropTypes.instanceOf(Object).isRequired,
   children: PropTypes.instanceOf(Object).isRequired,
-  signout: PropTypes.func.isRequired,
+  signOut: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = dispatch => ({
   ...bindActionCreators(actions, dispatch),
 });
 
-export default connect(null, mapDispatchToProps)(withStyles(styles)(Layout));
+export default connect(
+  null,
+  mapDispatchToProps
+)(withStyles(styles)(Layout));
